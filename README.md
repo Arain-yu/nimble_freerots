@@ -1,2 +1,21 @@
-# nimble_freerots
-Transplant nimble to freertos
+# NimBLE FreeRTOS
+本软件包为移植到FreeRTOS上的Apache 蓝牙协议栈NimBLE的例程，软件包在将NIMBLE移植到FreeRTOS的同时添加了部分BLE例程。
+
+* 操作系统：FreeRTOS
+* 开发板：PCA10040（nrf52832）
+* 集成开发环境：keil5.26
+* 调试工具：J-Link（板载）或者其它
+
+注：目前移植的各个例程功能正常，但是协议栈没有经过全面测试即认证测试，适合初步学习蓝牙协议栈，如有更高要求建议慎重考虑。
+
+## NimBLE
+NimBLE符合蓝牙核心规范5.0，这使其成为物联网（IoT）的理想无线技术。
+
+* LE广播附加信息
+* 2Msym / s PHY可获得更高的吞吐量
+* LE远程编码PHY
+* 高占空比不可连接广播
+* 频道选择算法2以更有效的方式利用频道。
+* LE Privacy 1.2，用于频繁更改设备地址，从而难以跟踪外部人员
+* LE安全连接具有符合FIPS的算法。
+* LE数据长度扩展可提高吞吐量
