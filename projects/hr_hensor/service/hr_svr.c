@@ -30,7 +30,7 @@ static const struct ble_gatt_svc_def hr_svr_svcs[] = {
     {
         /* Service: Heart-rate */
         .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(BLE_UUID_GENERAL_ACCESS_SERVICE),
+        .uuid = BLE_UUID16_DECLARE(BLE_UUID_HEART_RATE_SERVICE),
         .characteristics = (struct ble_gatt_chr_def[]) { {
             /* Characteristic: Heart-rate measurement */
             .uuid = BLE_UUID16_DECLARE(BLE_UUID_HEART_RATE_MEASUREMENT_CHAR),

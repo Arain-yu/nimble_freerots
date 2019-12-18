@@ -48,6 +48,8 @@ static void led_toggle_timer_callback (TimerHandle_t timer)
  */
 void board_init(void)
 {
+    extern void printf_init(void);
+
     /* Clock configuration */
     nrf_drv_clock_init();
     
@@ -61,6 +63,9 @@ void board_init(void)
     nrf_gpio_pin_set(LED_3);
     nrf_gpio_pin_set(LED_4);
 
+    /* printf configuration */
+    printf_init();
+    
     /* Create LED toggle timer function */
     led_toggle_timer = xTimerCreate( "LED1",
                                     100,

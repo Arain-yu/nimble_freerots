@@ -47,6 +47,9 @@ static int user_ble_gap_event(struct ble_gap_event *event, void *arg)
     switch (event->type) 
     {
         case BLE_GAP_EVENT_CONNECT:
+            printf(":connect(status:%d|conn_handle:%d)\r\n",
+                                    event->connect.status,
+                                    event->connect.conn_handle);
             if (event->connect.status != 0)
             {
                 /* Connection failed; resume advertising */
@@ -60,6 +63,8 @@ static int user_ble_gap_event(struct ble_gap_event *event, void *arg)
 
             break;
        case BLE_GAP_EVENT_DISCONNECT:
+            printf(":disconnect(reason:%d)\r\n",
+                                    event->disconnect.reason);
             /* Connection terminated; resume advertising */
             user_advertise_init();
 
@@ -70,6 +75,7 @@ static int user_ble_gap_event(struct ble_gap_event *event, void *arg)
 
             break;
         case BLE_GAP_EVENT_ADV_COMPLETE:
+            printf(":adv end\r\n");
             user_advertise_init();
 
             break;
@@ -128,6 +134,9 @@ void user_advertise_init(void)
     memset(&adv_params, 0, sizeof(adv_params));
     adv_params.conn_mode = BLE_GAP_CONN_MODE_UND;
     adv_params.disc_mode = BLE_GAP_DISC_MODE_GEN;
+    printf(":adv start(conn_mode:%d|disc_mode:%d)\r\n",
+                                adv_params.conn_mode,
+                                adv_params.disc_mode);
     ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER,
                            &adv_params, user_ble_gap_event, NULL);
 }
@@ -156,6 +165,9 @@ static void user_ble_on_sync(void)
  */
 void user_ble_host_entry(void *arg)
 {
+    /* Debug */
+    printf(":Host entry\r\n");
+
     /* Set the host synchronous callback */
     /* This callback is executed when the host and controller become synced. */
     ble_hs_cfg.sync_cb  = user_ble_on_sync;
@@ -182,9 +194,12 @@ int main(void)
     nimble_port_init();
     nimble_port_freertos_init(user_ble_host_entry);
 
+    printf("[System start]:\r\n");
     /* Start FreeRTOS scheduler. */
     vTaskStartScheduler();
 
     while(1)
     {}
 }
+
+

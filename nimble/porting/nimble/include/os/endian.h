@@ -53,7 +53,7 @@ extern "C" {
      (((x) & 0x00ff) << 8)))
 #endif
 
-#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#if defined (__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
 
 #ifndef ntohll
 #define ntohll(x)  ((uint64_t)(x))

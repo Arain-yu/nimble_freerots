@@ -63,6 +63,8 @@ gatt_svr_chr_access_device_info(uint16_t conn_handle, uint16_t attr_handle,
     uint16_t uuid;
     int rc;
 
+    printf(":device info get\r\n");
+
     uuid = ble_uuid_u16(ctxt->chr->uuid);
 
     if (uuid == BLE_UUID_DEVICE_NAME_CHAR) {

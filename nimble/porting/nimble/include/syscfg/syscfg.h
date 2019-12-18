@@ -16,15 +16,6 @@
  */
 #define MYNEWT_VAL(x)                           MYNEWT_VAL_ ## x
 
-/**
- * This macro exists to ensure code includes this header when needed.  If code
- * checks the existence of a setting directly via ifdef without including this
- * header, the setting macro will silently evaluate to 0.  In contrast, an
- * attempt to use these macros without including this header will result in a
- * compiler error.
- */
-#define MYNEWT_VAL(x)                           MYNEWT_VAL_ ## x
-
 /*** crypto/tinycrypt */
 #ifndef MYNEWT_VAL_TINYCRYPT_UECC_RNG_TRNG_DEV_NAME
 #define MYNEWT_VAL_TINYCRYPT_UECC_RNG_TRNG_DEV_NAME ("trng")
