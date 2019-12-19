@@ -10,6 +10,16 @@
 #ifndef __NIMBLE_CONF_H__
 #define __NIMBLE_CONF_H__
 
+/** Choose the log level 
+  * 5- DEBUG
+  * 4- DEBUG + INFO
+  * 3- DEBUG + INFO + WARM
+  * 2- DEBUG + INFO + WARM + ERROR
+  * 1- DEBUG + INFO + WARM + ERROR + CRITICAL
+  * 0-all 
+  */
+#define MYNEWT_VAL_LOG_LEVEL     0
+
 /* Controller configuretion */
 
 #define NIMBLE_CTLR

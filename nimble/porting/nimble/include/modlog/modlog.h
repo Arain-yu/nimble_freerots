@@ -38,16 +38,23 @@ modlog_dummy(const char *msg, ...)
 #define MODLOG_DEBUG(ml_mod_, ml_msg_, ...) \
         modlog_dummy((ml_msg_), ##__VA_ARGS__)
 #else
-#define MODLOG_DEBUG(ml_mod_, ml_msg_, ...) \
-        printf((ml_msg_), ##__VA_ARGS__);
+#define MODLOG_DEBUG(ml_mod_, ml_msg_, ...)         \
+do{                                                   \
+    printf("\r\n");                                 \
+    printf((ml_msg_), ##__VA_ARGS__);               \
+} while (0)
+
 #endif
 
 #if (MYNEWT_VAL(LOG_LEVEL) > 1)
 #define MODLOG_INFO(ml_mod_, ml_msg_, ...) \
         modlog_dummy((ml_msg_), ##__VA_ARGS__)
 #else
-#define MODLOG_INFO(ml_mod_, ml_msg_, ...) \
-        printf((ml_msg_), ##__VA_ARGS__);
+#define MODLOG_INFO(ml_mod_, ml_msg_, ...)          \
+do{                                                   \
+    printf("\r\n");                                 \
+    printf((ml_msg_), ##__VA_ARGS__);               \
+} while (0)
 #endif
 
 #if (MYNEWT_VAL(LOG_LEVEL) > 2)
@@ -55,7 +62,10 @@ modlog_dummy(const char *msg, ...)
         modlog_dummy((ml_msg_), ##__VA_ARGS__)
 #else
 #define MODLOG_WARN(ml_mod_, ml_msg_, ...) \
-        printf((ml_msg_), ##__VA_ARGS__);
+do{                                                   \
+    printf("\r\n");                                 \
+    printf((ml_msg_), ##__VA_ARGS__);               \
+} while (0)
 #endif
 
 #if (MYNEWT_VAL(LOG_LEVEL) > 3)
@@ -63,15 +73,21 @@ modlog_dummy(const char *msg, ...)
         modlog_dummy((ml_msg_), ##__VA_ARGS__)
 #else
 #define MODLOG_ERROR(ml_mod_, ml_msg_, ...) \
-        printf((ml_msg_), ##__VA_ARGS__);
+do {                                                \
+    printf("\r\n");                                 \
+    printf((ml_msg_), ##__VA_ARGS__);               \
+} while (0)
 #endif
 
 #if (MYNEWT_VAL(LOG_LEVEL) > 4)
 #define MODLOG_CRITICAL(ml_mod_, ml_msg_, ...) \
         modlog_dummy((ml_msg_), ##__VA_ARGS__)
 #else
-#define MODLOG_CRITICAL(ml_mod_, ml_msg_, ...) \
-        printf((ml_msg_), ##__VA_ARGS__);
+#define MODLOG_CRITICAL(ml_mod_, ml_msg_, ...)      \
+do {                                                \
+    printf("\r\n");                                 \
+    printf((ml_msg_), ##__VA_ARGS__);               \
+} while (0)
 #endif
 
 #define MODLOG(ml_lvl_, ml_mod_, ...) \
