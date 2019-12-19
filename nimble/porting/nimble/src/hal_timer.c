@@ -169,7 +169,7 @@ nrf_timer_set_ocmp(struct nrf52_hal_timer *bsptimer, uint32_t expiry)
          * it is greater than 2.
          */
         if (delta_t < 3) {
-            NVIC_SetPendingIRQ(bsptimer->tmr_irq_num);
+            NVIC_SetPendingIRQ((IRQn_Type)bsptimer->tmr_irq_num);
         } else  {
             if (delta_t < (1UL << 24)) {
                 rtctimer->CC[NRF_RTC_TIMER_CC_INT] = expiry & 0x00ffffff;
@@ -196,7 +196,7 @@ nrf_timer_set_ocmp(struct nrf52_hal_timer *bsptimer, uint32_t expiry)
 
         /* Force interrupt to occur as we may have missed it */
         if ((int32_t)(nrf_read_timer_cntr(hwtimer) - expiry) >= 0) {
-            NVIC_SetPendingIRQ(bsptimer->tmr_irq_num);
+            NVIC_SetPendingIRQ((IRQn_Type)bsptimer->tmr_irq_num);
         }
     }
 }
@@ -231,7 +231,7 @@ hal_timer_read_bsptimer(struct nrf52_hal_timer *bsptimer)
         bsptimer->tmr_cntr = tcntr;
         low32 = rtctimer->COUNTER;
         rtctimer->EVENTS_OVRFLW = 0;
-        NVIC_SetPendingIRQ(bsptimer->tmr_irq_num);
+        NVIC_SetPendingIRQ((IRQn_Type)bsptimer->tmr_irq_num);
     }
     tcntr |= low32;
     OS_EXIT_CRITICAL(sr);
@@ -485,9 +485,9 @@ hal_timer_init(int timer_num, void *cfg)
     bsptimer->tmr_irq_num = irq_num;
 
     /* Disable IRQ, set priority and set vector in table */
-    NVIC_DisableIRQ(irq_num);
+    NVIC_DisableIRQ((IRQn_Type)irq_num);
 #ifndef RIOT_VERSION
-    NVIC_SetPriority(irq_num, (1 << __NVIC_PRIO_BITS) - 1);
+    NVIC_SetPriority((IRQn_Type)irq_num, (1 << __NVIC_PRIO_BITS) - 1);
 #endif
 #if MYNEWT
     NVIC_SetVector(irq_num, (uint32_t)irq_isr);
@@ -553,7 +553,7 @@ hal_timer_config(int timer_num, uint32_t freq_hz)
         rtctimer->TASKS_START = 1;
 
         /* Set isr in vector table and enable interrupt */
-        NVIC_EnableIRQ(bsptimer->tmr_irq_num);
+        NVIC_EnableIRQ((IRQn_Type)bsptimer->tmr_irq_num);
 
         OS_EXIT_CRITICAL(sr);
         return 0;

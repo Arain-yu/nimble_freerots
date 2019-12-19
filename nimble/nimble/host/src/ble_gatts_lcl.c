@@ -20,6 +20,7 @@
 #include <stddef.h>
 #include <string.h>
 #include "host/ble_uuid.h"
+#include "console/console.h"
 #include "nimble/ble.h"
 #include "ble_hs_priv.h"
 
