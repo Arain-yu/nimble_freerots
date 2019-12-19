@@ -83,6 +83,12 @@ static int user_ble_gap_event(struct ble_gap_event *event, void *arg)
 
             break;
 
+        case BLE_GAP_EVENT_SUBSCRIBE:
+
+            hr_service_subscribe_handler(event, arg);
+
+            break;
+
         default:
             break;
     }
