@@ -5,7 +5,7 @@
   * @file    console.h
   * @brief   remap console
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
   *
   *********************************************************************************
   */

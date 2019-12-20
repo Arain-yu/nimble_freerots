@@ -453,11 +453,6 @@
               <FilePath>.\app\system_nrf52.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_drv_clock.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\nordic\integration\nrfx\legacy\nrf_drv_clock.c</FilePath>
-            </File>
-            <File>
               <FileName>nrfx_clock.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\nordic\modules\nrfx\drivers\src\nrfx_clock.c</FilePath>
@@ -481,6 +476,11 @@
               <FileName>nrfx_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\nordic\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\nordic\integration\nrfx\legacy\nrf_drv_clock.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,9 +1,12 @@
 /**
   *********************************************************************************
+  * SPDX-License-Identifier: Apache-2.0
+  *
   * @file    gatt_svr.h
   * @brief   Heart rate service definition
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
+  *
   *********************************************************************************
   */
 

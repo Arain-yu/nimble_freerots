@@ -5,7 +5,7 @@
   * @file    main.c
   * @brief   main
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
   *
   *********************************************************************************
   */

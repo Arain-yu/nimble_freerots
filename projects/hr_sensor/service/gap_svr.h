@@ -1,9 +1,12 @@
 /**
   *********************************************************************************
+  * SPDX-License-Identifier: Apache-2.0
+  *
   * @file    gap_svr.h
   * @brief   GAP service definition
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
+  *
   *********************************************************************************
   */
 

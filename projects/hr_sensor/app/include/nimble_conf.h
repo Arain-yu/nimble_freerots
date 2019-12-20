@@ -1,9 +1,12 @@
 /**
   *********************************************************************************
+  * SPDX-License-Identifier: Apache-2.0
+  *
   * @file    nimble_conf.h
   * @brief   nimble configuration
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
+  *
   *********************************************************************************
   */
 

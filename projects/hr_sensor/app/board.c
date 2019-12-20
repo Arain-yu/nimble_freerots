@@ -1,9 +1,12 @@
 /**
   *********************************************************************************
+  * SPDX-License-Identifier: Apache-2.0
+  *
   * @file    board.c
   * @brief   PCA10040 board configuration
   * @version V1.0
-  * @author  Yuzrain
+  * @author  yuzrain
+  *
   *********************************************************************************
   */
 
