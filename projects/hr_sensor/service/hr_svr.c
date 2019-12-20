@@ -39,6 +39,18 @@ static int
 gatt_svr_chr_access_heart_rate(uint16_t conn_handle, uint16_t attr_handle,
                                struct ble_gatt_access_ctxt *ctxt, void *arg);
 
+static int
+gatt_svr_chr_access_hr_des(uint16_t conn_handle, uint16_t attr_handle,
+                               struct ble_gatt_access_ctxt *ctxt, void *arg);
+
+/* Add BLE_UUID_HEART_RATE_MEASUREMENT_CHAR description */
+static int8_t des_hr[] = "heart rate";
+struct ble_gatt_dsc_def hr_me_user_des = {
+    .uuid       = BLE_UUID16_DECLARE(0x2901),
+    .att_flags  = BLE_ATT_F_READ,
+    .access_cb  = gatt_svr_chr_access_hr_des,
+};
+
 /**
  * @brief Heart-rate service database.
  */
@@ -53,6 +65,7 @@ static const struct ble_gatt_svc_def hr_svr_svcs[] = {
             .access_cb = gatt_svr_chr_access_heart_rate,
             .val_handle = &hrs_hrm_service_handle,
             .flags = BLE_GATT_CHR_F_NOTIFY,
+            .descriptors = &hr_me_user_des,
         }, {
             /* Characteristic: Body sensor location */
             .uuid = BLE_UUID16_DECLARE(BLE_UUID_BODY_SENSOR_LOCATION_CHAR),
@@ -67,6 +80,14 @@ static const struct ble_gatt_svc_def hr_svr_svcs[] = {
         .type = BLE_GATT_SVC_TYPE_END, /* No more services */
     },
 };
+
+static int
+gatt_svr_chr_access_hr_des(uint16_t conn_handle, uint16_t attr_handle,
+                               struct ble_gatt_access_ctxt *ctxt, void *arg)
+{
+    os_mbuf_append(ctxt->om, des_hr, sizeof(des_hr));
+    return 0;
+}
 
 /**
  * @brief Access heart-rate.
