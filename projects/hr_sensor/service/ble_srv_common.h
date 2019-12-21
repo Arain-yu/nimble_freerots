@@ -186,6 +186,16 @@ extern "C" {
 #define BLE_UUID_OTS_OBJECT_CHANGED                              0x2AC8     /**< OTS Service, Object Changed characteristic UUID*/
 /** @} */
 
+/** @defgroup UUID_CHARACTERISTICS Characteristic description UUID definitions
+ * @{ */
+#define BLE_UUID_CHR_DES_EXTEND_PROPERTIES                       0x2900     /**< characteristic_extended_properties*/
+#define BLE_UUID_CHR_DES_USER_DECRIPTION                         0x2901     /**< characteristic_user_description*/
+#define BLE_UUID_CHR_DES_CLIENT_CONFIGURATION                    0x2902     /**< gatt.client_characteristic_configuration*/
+#define BLE_UUID_CHR_DES_SERVER_CONFIGURATION                    0x2903     /**< gatt.server_characteristic_configuration*/
+#define BLE_UUID_CHR_DES_PRESENTATION_FORMAT                     0x2904     /**< gatt.characteristic_presentation_format*/
+#define BLE_UUID_CHR_DES_AGGREGATE_FORMAT                        0x2905     /**< gatt.characteristic_aggregate_format*/
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif
