@@ -114,11 +114,15 @@ static int gatt_svr_chr_access_user_des(uint16_t conn_handle, uint16_t attr_hand
         {
             if (ctxt->op == BLE_GATT_ACCESS_OP_READ_DSC)
             {
+                /* ATT req user description */
+                printf("[att req] read hr user des\r\n");
                 /* Copy the description to the send buffer */
                 rc = os_mbuf_append(ctxt->om, chr_hr_mes_des_hr, strlen(chr_hr_mes_des_hr));
             }
             else if (ctxt->op == BLE_GATT_ACCESS_OP_WRITE_DSC)
             {
+                /* ATT req user description */
+                printf("[att req] write hr user des\r\n");
                 /* Clear the old description */
                 memset(chr_hr_mes_des_hr, 0x00, DES_BUFF_LEN);
                 /* Read */
@@ -163,6 +167,8 @@ static int gatt_svr_chr_access_heart_rate(uint16_t conn_handle, uint16_t attr_ha
     {
         case BLE_UUID_BODY_SENSOR_LOCATION_CHAR:
         {
+            /* ATT req */
+            printf("[att req] read body sensor location\r\n");
             /* Copy location to send buffer */
             rc = os_mbuf_append(ctxt->om, &body_sens_loc, sizeof(body_sens_loc));
 
@@ -171,6 +177,8 @@ static int gatt_svr_chr_access_heart_rate(uint16_t conn_handle, uint16_t attr_ha
 
         case BLE_UUID_HEART_RATE_MEASUREMENT_CHAR:
         {
+            /* ATT req */
+            printf("[att req] read hr value\r\n");
             hr_data[0] = 0x06;         /* contact of a sensor */
             hr_data[1] = heartrate;    /* storing dummy data */
             rc = os_mbuf_append(ctxt->om, &hr_data, 2);
@@ -222,7 +230,7 @@ void hr_service_subscribe_handler(struct ble_gap_event *event, void *arg)
     if (event->type != BLE_GAP_EVENT_SUBSCRIBE)
         return;
 
-    printf(":hr subscribe event(cur_notify:%d | service handle=%d)\r\n",
+    printf("[hr subscribe event] cur_notify:%d | service handle=%d\r\n",
                     event->subscribe.cur_notify, event->subscribe.attr_handle);
 
     if (event->subscribe.attr_handle == hrs_hrm_service_handle)

@@ -66,16 +66,18 @@ gatt_svr_chr_access_device_info(uint16_t conn_handle, uint16_t attr_handle,
     uint16_t uuid;
     int rc;
 
-    printf(":device info get\r\n");
-
     uuid = ble_uuid_u16(ctxt->chr->uuid);
 
     if (uuid == BLE_UUID_DEVICE_NAME_CHAR) {
+        /* Get req att device name */
+        printf("[att req] read device name\r\n");
         rc = os_mbuf_append(ctxt->om, user_ble_device_name, strlen(user_ble_device_name));
         return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
     }
 
     if (uuid == BLE_UUID_APPEARANCE_CHAR) {
+        /* Get req att device appearance */
+        printf("[att req] read device appearance\r\n");
         rc = os_mbuf_append(ctxt->om, &user_ble_appearance, 2);
         return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
     }
