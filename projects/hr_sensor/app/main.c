@@ -155,7 +155,7 @@ void user_advertise_init(void)
  * @param None
  * @param None
  */
-static void user_ble_on_sync(void)
+static void user_ble_sync_callback(void)
 {
     int rc;
 
@@ -165,6 +165,52 @@ static void user_ble_on_sync(void)
 
     /* Begin advertising */
     user_advertise_init();
+}
+
+/**
+ * @brief An optional callback that gets executed upon registration of each GATT
+ * resource (service, characteristic, or descriptor).
+ * @param None
+ * @param None
+ */
+void user_gatt_register_callback(struct ble_gatt_register_ctxt *ctxt,
+                                  void *arg)
+{
+    uint8_t reg_type = ctxt->op;
+
+    switch (reg_type)
+    {
+        case BLE_GATT_REGISTER_OP_SVC:
+        {
+            /* Read the registered service */
+            printf("[svc reg    ] svc_uuid:%04X | handle:%04X\r\n",
+                                        ble_uuid_u16(ctxt->svc.svc_def->uuid),
+                                        ctxt->svc.handle);
+            break;
+        }
+        case BLE_GATT_REGISTER_OP_CHR:
+        {
+            /* Read the registered characteristic */
+            printf("[chr reg    ] chr_uuid:%04X "
+                                        "| def_handle:%04X "
+                                        "| val_handle:%04X\r\n",
+                                        ble_uuid_u16(ctxt->chr.chr_def->uuid),
+                                        ctxt->chr.def_handle,
+                                        ctxt->chr.val_handle);
+            break;
+        }
+        case BLE_GATT_REGISTER_OP_DSC:
+        {
+            /* Read the registered characteristic description */
+            printf("[chr des reg] des_uuid:%04X "
+                                        "| def_handle:%04X\r\n",
+                                        ble_uuid_u16(ctxt->dsc.dsc_def->uuid),
+                                        ctxt->dsc.handle);
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 /**
@@ -179,7 +225,8 @@ void user_ble_host_entry(void *arg)
 
     /* Set the host synchronous callback */
     /* This callback is executed when the host and controller become synced. */
-    ble_hs_cfg.sync_cb  = user_ble_on_sync;
+    ble_hs_cfg.sync_cb              = user_ble_sync_callback;
+    ble_hs_cfg.gatts_register_cb    = user_gatt_register_callback;
 
     /* Add GAP servicce */
     gap_svr_init();
