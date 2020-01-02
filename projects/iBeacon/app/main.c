@@ -20,20 +20,27 @@
 #include "nimble/ble.h"
 #include "host/ble_hs.h"
 #include "nimble/nimble_port.h"
-#include "ble_appearance_id.h"
+
+#define IBEACON_MFG_DATA_SIZE       25
 
 /* Hold the address type */
 static uint8_t ble_addr_type;
 
-/* Hold the device name */
+/* Company ID: Apple */
+uint16_t user_ble_company_id = 0x004C;
+/* iBeacon indicator */
+uint16_t user_ble_ibeacon_indicator = 0x1502;
+/* WeChat iBeacon UUID */
 const char user_ble_weixin_uuid[] = {0xFD, 0xA5, 0x06, 0x93,
                                      0xA4, 0xE2, 0x4F, 0xB1,
                                      0xAF, 0xCF, 0xC6, 0XEB,
                                      0x07, 0x64, 0x78, 0x25};
+/* WeChat merchant service number */
 uint16_t user_ble_weixin_major = 10002;
+/* WeChat merchant service device number */
 uint16_t user_ble_weixin_minor = 12345;
+/* Power */
 int8_t user_ble_weixin_power = 0xC3;
-
 
 /* Hold LED status */
 extern volatile uint32_t led_status;
@@ -73,13 +80,55 @@ static int user_ble_gap_event(struct ble_gap_event *event, void *arg)
 void user_advertise_init(void)
 {
     struct ble_gap_adv_params adv_params;
-    
+    struct ble_hs_adv_fields fields;
+    uint8_t buf[IBEACON_MFG_DATA_SIZE];
 
-    ble_ibeacon_set_adv_data((void *)(&user_ble_weixin_uuid), user_ble_weixin_major,
-                        user_ble_weixin_minor, user_ble_weixin_power);
+    memset(&fields, 0, sizeof (fields));
+    memset(&buf, 0, IBEACON_MFG_DATA_SIZE);
+    memset(&adv_params, 0, sizeof(adv_params));
+
+    /* Test */
+//    ble_ibeacon_set_adv_data((void *)(&user_ble_weixin_uuid), user_ble_weixin_major,
+//                        user_ble_weixin_minor, user_ble_weixin_power);
+
+    /* The iBeacon data is devided into 4 parts:
+     * @1 iBeacon prefix (fixed)
+     * @2 proximity UUID
+     * @3 major
+     * @4 minor
+     * @5 s complement of measured TX power
+     * The iBeacon prefix section contains FLAG data from the
+     * general broadcast data as well as producer specific data.
+     * FLAG [0x02(length) 0x01(type) 0x06(data)]
+     * mfg_data [0x1A(length) 0xFF(type) ......(data)]
+     */
+
+    /* Advertise two flags:
+     *     o Discoverability in forthcoming advertisement (general)
+     *     o BLE-only (BR/EDR unsupported).
+     */
+    fields.flags = BLE_HS_ADV_F_DISC_GEN |
+                   BLE_HS_ADV_F_BREDR_UNSUP;
+
+    /* The following is manufacture data
+     * @1 Company ID
+     * @2 iBeacon indicator
+     * @3 WeChat iBeacon UUID
+     * @4 major
+     * @5 minor
+     * @6 Power
+     */
+    memcpy(&buf[0], &user_ble_company_id, 2);
+    memcpy(&buf[0+2], &user_ble_ibeacon_indicator, 2);
+    memcpy(&buf[0+2+2], user_ble_weixin_uuid, 16);
+    put_be16(buf + 20, user_ble_weixin_major);
+    put_be16(buf + 22, user_ble_weixin_minor);
+    memcpy(&buf[0+2+2+16+2+2], &user_ble_weixin_power, 1);
+    fields.mfg_data     = buf;
+    fields.mfg_data_len = sizeof (buf);
+    ble_gap_adv_set_fields(&fields);
 
     /* Begin advertising */
-    memset(&adv_params, 0, sizeof(adv_params));
     adv_params.conn_mode = BLE_GAP_CONN_MODE_NON;
     adv_params.disc_mode = BLE_GAP_DISC_MODE_NON;
     printf("[adv start] conn_mode:%d|disc_mode:%d\r\n",
